@@ -1,9 +1,9 @@
 import { Activity } from "react";
 import "./App.css";
-import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { filterSlice } from "./redux/reducers/filter.slice";
-import { useGetPokemonByNameQuery } from "./services/pokemon";
-import { useLoginMutation } from "./services/login";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useGetPokemonByNameQuery } from "@/services/pokemon";
+import { useLoginMutation } from "@/services/login";
+import { filterSlice } from "@/redux/features/filter.slice";
 
 function App() {
   const { data, isLoading } = useGetPokemonByNameQuery("bulbasaur");

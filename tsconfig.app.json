@@ -7,6 +7,11 @@
     "module": "ESNext",
     "types": ["vite/client"],
     "skipLibCheck": true,
+    "paths": {
+      "@/redux/*": ["./src/redux/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/services/*": ["./src/services/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

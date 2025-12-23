@@ -5,7 +5,7 @@ import {
   type FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../redux/type";
-import { logout, setToken } from "../redux/reducers/auth.slice";
+import { logout, setToken } from "../redux/features/auth.slice";
 
 export const customBaseQuery: BaseQueryFn<
   string | FetchArgs,
