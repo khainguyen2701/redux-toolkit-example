@@ -1,9 +1,10 @@
 import { createRoot } from "react-dom/client";
 
 import App from "./App";
-import { store } from "./redux/store";
+import { persistor, store } from "@/redux/store";
 import { Provider } from "react-redux";
 import { StrictMode } from "react";
+import { PersistGate } from "redux-persist/integration/react";
 
 const container = document.getElementById("root");
 
@@ -13,7 +14,9 @@ if (container) {
   root.render(
     <StrictMode>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </StrictMode>
   );

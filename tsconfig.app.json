@@ -10,7 +10,9 @@
     "paths": {
       "@/redux/*": ["./src/redux/*"],
       "@/components/*": ["./src/components/*"],
-      "@/services/*": ["./src/services/*"]
+      "@/services/*": ["./src/services/*"],
+      "@/page/*": ["./src/page/*"],
+      "@/router/*": ["./src/router/*"]
     },
 
     /* Bundler mode */

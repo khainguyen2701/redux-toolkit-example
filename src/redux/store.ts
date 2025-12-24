@@ -1,16 +1,28 @@
+import { lotusApi } from "@/services/lotus";
 import { pokemonApi } from "@/services/pokemon";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { serverReducers } from "@/redux/reducers/server";
-import { clientReducers } from "@/redux/reducers/client";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistStore,
+} from "redux-persist";
+import { persistedReducer } from "./reducers";
 
 export const store = configureStore({
-  reducer: {
-    ...serverReducers,
-    ...clientReducers,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pokemonApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(pokemonApi.middleware, lotusApi.middleware),
 });
 
 setupListeners(store.dispatch);
+
+export const persistor = persistStore(store);
