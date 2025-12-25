@@ -7,7 +7,7 @@ import {
 import type { RootState } from "../redux/type";
 import { logout, setTokens } from "@/redux/features/auth.slice";
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: "https://lotus-sessionm-api.onrender.com/",
+  baseUrl: import.meta.env.VITE_PUBLIC_API_LOTUS,
   // credentials: "include", // ⚠️ cookie refresh token
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
@@ -26,14 +26,23 @@ export const baseQueryWithReauth: BaseQueryFn<
   let result = await rawBaseQuery(args, api, extraOptions);
 
   let isRefreshToken = false;
+  const state = api.getState() as RootState;
 
   if (result.error?.status === 401) {
     if (!isRefreshToken) {
       isRefreshToken = true;
     }
 
+    const bodyRefreshToken = {
+      refresh_token: state.auth.refreshToken,
+    };
+
     const refreshResult = await rawBaseQuery(
-      { url: "/api/v1/ms-auth/refresh-token", method: "POST" },
+      {
+        url: "/api/v1/ms-auth/refresh-token",
+        method: "POST",
+        body: bodyRefreshToken,
+      },
       api,
       extraOptions
     );

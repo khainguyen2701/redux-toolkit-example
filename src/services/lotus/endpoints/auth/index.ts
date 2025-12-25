@@ -1,6 +1,6 @@
 import { lotusApi } from "@/services/lotus";
 import type { LoginRequest, LoginResponse } from "./type";
-import { setTokens } from "@/redux/features/auth.slice";
+import { logout, setTokens } from "@/redux/features/auth.slice";
 
 export const authEndpoints = lotusApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -30,13 +30,18 @@ export const authEndpoints = lotusApi.injectEndpoints({
         body: body,
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(
-          setTokens({
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
-          })
-        );
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            setTokens({
+              accessToken: data.accessToken,
+              refreshToken: data.refreshToken,
+            })
+          );
+        } catch (error) {
+          console.log("error", error);
+          dispatch(logout());
+        }
       },
     }),
   }),
